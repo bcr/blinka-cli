@@ -6,7 +6,7 @@ This is intended to provide various useful commands for maintaining CircuitPytho
 
 ```
 PS C:\Users\bcr00\Source\bcr\blinka-cli> python .\blinka.py --help
-usage: blinka.py [-h] [-v | -q] [-r ROOT] [-l LOCALE] [-b BOARD_ID] {backup} ...
+usage: blinka.py [-h] [-v | -q] [-l LOCALE] {backup} ...
 
 Perform CircuitPython operations.
 
@@ -14,11 +14,8 @@ optional arguments:
   -h, --help            show this help message and exit
   -v, --verbose         be chatty
   -q, --quiet           be quiet
-  -r ROOT, --root ROOT  specify the root directory of your CircuitPython
   -l LOCALE, --locale LOCALE
                         specify the locale (default: en_US)
-  -b BOARD_ID, --board BOARD_ID
-                        specify the board type
 
 subcommands:
   {backup}              specify which operation to perform, use --help after the operation for operation-specific help

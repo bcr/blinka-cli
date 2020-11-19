@@ -20,4 +20,5 @@ def setup_argument_parser(parser):
     parser.description="Saves a copy of the filesystem on a CircuitPython device."
     default_filename = datetime.now().strftime('backup-%Y-%m-%d-%H-%M-%S%z.zip')
     parser.add_argument("-f", "--filename", action="store", dest="filename", default = default_filename, help="specify the filename to put the backup (default: %(default)s)")
+    parser.add_argument("-r", "--root", action="store", dest="root", help="specify the root directory of your CircuitPython", required=True)
     parser.set_defaults(func=backup)
