@@ -42,3 +42,4 @@ subcommands:
 
 pip install pywin32
 pip install semver
+pip install pyserial
