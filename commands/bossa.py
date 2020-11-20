@@ -12,6 +12,7 @@ offsets = {
 }
 
 bossa_landing_page_url = "http://www.shumatech.com/web/products/bossa"
+adafruit_bossa_url = "https://learn.adafruit.com/welcome-to-circuitpython/non-uf2-installation"
 
 class BossaError(Exception):
     pass
@@ -96,7 +97,7 @@ def get_info(args):
 def execute_update(args, offset, pathname):
     bossa_args = [args.bossa_path, "-p", args.port, "-e", "-w", "-v", "-R", "--offset=%s" % offset, pathname]
     command_line = ' '.join(bossa_args)
-    if confirm("I will be executing the command line:\n%s\nPLEASE REVIEW IT\nReady to do this?" % command_line):
+    if confirm("I will be executing the command line:\n\n%s\n\nPLEASE REVIEW IT\nTo understand more about the risks go to %s\nReady to run this command?" % (command_line, adafruit_bossa_url)):
         logging.info("Executing %s" % command_line)
         result = subprocess.run(bossa_args)
 
