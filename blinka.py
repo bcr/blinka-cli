@@ -11,11 +11,26 @@ commands = {
     "bossa" : commands.bossa,
 }
 
+# Do some initial logging setup -- this really needs to be here, before you do
+# stuff with argparse. Trust me on this.
+logging.basicConfig(format="%(levelname)s %(message)s", level=logging.INFO)
+
+# Put in some emojis for fun
+emojis = {
+    logging.DEBUG       : "\N{Nerd Face}",
+    logging.INFO        : "\N{Thumbs Up Sign}",
+    logging.WARNING     : "\N{Worried Face}",
+    logging.ERROR       : "\N{Pouting Face}",
+    logging.CRITICAL    : "\N{Serious Face With Symbols Covering Mouth}",
+}
+
+for emoji in emojis:
+    logging.addLevelName(emoji, emojis[emoji])
+
 parser = argparse.ArgumentParser(description='Perform CircuitPython operations.')
 
 chatty_group = parser.add_mutually_exclusive_group()
 chatty_group.add_argument("-v", "--verbose", action="store_true", dest="verbose", help="be chatty")
-chatty_group.add_argument("-q", "--quiet", action="store_true", dest="quiet", help="be quiet")
 
 parser.add_argument("-l", "--locale", action="store", dest="locale", default = locale.getdefaultlocale()[0], help="specify the locale (default: %(default)s)")
 
@@ -27,10 +42,8 @@ for command in commands:
 
 options = parser.parse_args()
 
-# Set up logging
-if not options.quiet:
-    logging.basicConfig()
-    logging.getLogger().setLevel(logging.DEBUG if options.verbose else logging.INFO)
+# Change logging level if required
+logging.getLogger().setLevel(logging.DEBUG if options.verbose else logging.INFO)
 
 logging.debug("options = %s" % options)
 
