@@ -29,9 +29,7 @@ for emoji in emojis:
 
 parser = argparse.ArgumentParser(description='Perform CircuitPython operations.')
 
-chatty_group = parser.add_mutually_exclusive_group()
-chatty_group.add_argument("-v", "--verbose", action="store_true", dest="verbose", help="be chatty")
-
+parser.add_argument("-v", "--verbose", action="store_true", dest="verbose", help="be chatty")
 parser.add_argument("-l", "--locale", action="store", dest="locale", default = locale.getdefaultlocale()[0], help="specify the locale (default: %(default)s)")
 
 # https://docs.python.org/3/library/argparse.html#sub-commands
