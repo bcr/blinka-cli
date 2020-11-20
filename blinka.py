@@ -46,7 +46,7 @@ logging.getLogger().setLevel(logging.DEBUG if options.verbose else logging.INFO)
 logging.debug("options = %s" % options)
 
 # Set up locale
-logging.info("Using %s for the locale" % options.locale)
+logging.debug("Using %s for the locale" % options.locale)
 
 with tempfile.TemporaryDirectory() as tempdir:
     logging.debug("Temporary directory is %s" % tempdir)

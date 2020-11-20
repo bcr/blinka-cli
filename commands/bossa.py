@@ -42,7 +42,7 @@ def process_output_bytes_to_string(bytes):
 def get_bossa_version(args):
     final_version = None
     bossa_args = [args.bossa_path, "-h"]
-    logging.info("Executing %s" % ' '.join(bossa_args))
+    logging.debug("Executing %s" % ' '.join(bossa_args))
     result = subprocess.run(bossa_args, capture_output=True)
     logging.debug("returncode = %d", result.returncode)
 
@@ -65,12 +65,12 @@ def ensure_correct_bossa_version(args):
         complaint = "BOSSA version is %s and needs to match %s. Unable to continue. You can upgrade BOSSA at %s" % (version, version_requirement, bossa_landing_page_url)
         logging.fatal(complaint)
         raise BossaError(complaint)
-    logging.info("BOSSA version %s" % version)
+    logging.debug("BOSSA version %s" % version)
 
 def get_info(args):
     final_dict = None
     bossa_args = [args.bossa_path, "-p", args.port, "-i"]
-    logging.info("Executing %s" % ' '.join(bossa_args))
+    logging.debug("Executing %s" % ' '.join(bossa_args))
     result = subprocess.run(bossa_args, capture_output=True)
     logging.debug("returncode = %d", result.returncode)
     if result.returncode == 0:
@@ -111,7 +111,7 @@ def do_bossa(args):
         if start_address in device:
             address = offsets[start_address]
             break
-    logging.info("Address for device %s is %s" % (device, address))
+    logging.debug("Address for device %s is %s" % (device, address))
 
     # Find the latest firmware metadata
     metadata = board.get_version_metadata(args.board)
