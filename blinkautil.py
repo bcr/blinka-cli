@@ -13,8 +13,16 @@ def string_to_script_bytes(script):
 
 def reboot_in_bootloader_mode(port):
     # Connect to the port
-    logging.debug("connecting to port %s" % port)
-    connection = serial.Serial(port)
+
+    try:
+        logging.debug("connecting to port %s" % port)
+        connection = serial.Serial(port)
+    except serial.serialutil.SerialException as e:
+        if "FileNotFoundError" in e.args[0]:
+            logging.critical("Could not open port %s -- are you sure you have the right name?" % port)
+        elif "PermissionError" in e.args[0]:
+            logging.critical("Could not open port %s -- is it open in a terminal program?" % port)
+        raise
 
     # Not sure there's a lot of science here -- the idea is to honk on the
     # board until we can start typing in the REPL, and then send our fancy
