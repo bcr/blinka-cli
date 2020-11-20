@@ -1,13 +1,15 @@
 import json
 import logging
 import os.path
-import urllib.request
+import urlutil
 
 # This is a mapping from the text in boot_log.txt to the board ID used in the firmware filenames
 
 boards = {
     "Adafruit Feather M0 RFM69 with samd21g18": "feather_m0_rfm69",
 }
+
+download_url_template = "https://downloads.circuitpython.org/bin/{board}/{locale}/adafruit-circuitpython-{board}-{locale}-{version}.{extension}"
 
 def get_boot_string(root):
     # Read first line of boot_out.txt
@@ -30,6 +32,8 @@ def get_version_metadata(board_id):
     # This file has the metadata for all the boards. Go get it and find our board in it.
     url = 'https://raw.githubusercontent.com/adafruit/circuitpython-org/master/_data/files.json'
     logging.debug("Fetching metadata from %s" % url)
-    with urllib.request.urlopen(url) as stream:
-        all_metadata = json.loads(stream.read().decode())
-        return next((x for x in all_metadata if x['id'] == board_id), None)
+    all_metadata = urlutil.get_json_from_url(url)
+    return next((x for x in all_metadata if x['id'] == board_id), None)
+
+def get_download_url(version, board, extension, locale):
+    return download_url_template.format(version = version['version'], locale = locale, extension = extension, board = board)

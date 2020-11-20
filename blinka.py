@@ -1,10 +1,14 @@
 import argparse
 import locale
 import logging
+import tempfile
+
 import commands.backup
+import commands.bossa
 
 commands = {
     "backup" : commands.backup,
+    "bossa" : commands.bossa,
 }
 
 parser = argparse.ArgumentParser(description='Perform CircuitPython operations.')
@@ -33,4 +37,7 @@ logging.debug("options = %s" % options)
 # Set up locale
 logging.info("Using %s for the locale" % options.locale)
 
-options.func(options)
+with tempfile.TemporaryDirectory() as tempdir:
+    logging.debug("Temporary directory is %s" % tempdir)
+    options.tempdir = tempdir
+    options.func(options)

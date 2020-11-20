@@ -41,3 +41,4 @@ subcommands:
 ## Installation Details
 
 pip install pywin32
+pip install semver
