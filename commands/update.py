@@ -56,7 +56,7 @@ def do_update(args):
             blinkautil.reboot_in_bootloader_mode(args.port)
             # Wait for things to settle down
             logging.info("Waiting a bit for things to settle")
-            time.sleep(2)
+            time.sleep(4)
             # Get root to copy to
             bootloader_root = fsutil.find_circuit_python_bootloader_mode_root()
             (_, filename) = os.path.split(pathname)
@@ -66,7 +66,7 @@ def do_update(args):
             shutil.copy(pathname, bootloader_root)
             # All done! Should be back in user mode if everything is OK
             logging.info("Waiting a bit for things to settle")
-            time.sleep(5)
+            time.sleep(9)
             (version, board_id) = board.identify(args.root)
             if version == new_version:
                 logging.info("I checked the current version and it looks right! All updated.")
