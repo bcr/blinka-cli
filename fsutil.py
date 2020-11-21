@@ -5,6 +5,10 @@ expected_user_mode_volume_names = [
     "CIRCUITPY",
 ]
 
+expected_bootloader_mode_volume_names = [
+    "PORTALBOOT",
+]
+
 # TODO: This is super Windows-centric right now. Other platforms should not
 #       need `win32api` installed and will have their own way of finding the
 #       root directory.
