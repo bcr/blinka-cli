@@ -66,12 +66,12 @@ def do_update(args):
             shutil.copy(pathname, bootloader_root)
             # All done! Should be back in user mode if everything is OK
             logging.info("Waiting a bit for things to settle")
-            time.sleep(2)
+            time.sleep(5)
             (version, board_id) = board.identify(args.root)
             if version == new_version:
                 logging.info("I checked the current version and it looks right! All updated.")
             else:
-                logging.error("I tried to upgrade, and I expected the current version to be %s and instead it is %s" % (new_version, version))
+                logging.error("I tried to update, and I expected the current version to be %s and instead it is %s" % (new_version, version))
         pass
     else:
         logging.info("No upgrade required, thanks for checking!")
