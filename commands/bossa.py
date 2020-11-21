@@ -1,3 +1,4 @@
+import blinkautil
 import logging
 import os
 import re
@@ -138,8 +139,7 @@ def find_bossa_path():
     return path if is_exe(path) else None
 
 def find_port():
-    # No.
-    return None
+    return blinkautil.find_serial_port()
 
 def setup_argument_parser(parser):
     bossa_path = find_bossa_path()
