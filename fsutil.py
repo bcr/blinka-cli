@@ -1,8 +1,9 @@
 import logging
-try:
+import platform
+if platform.system() == "Windows":
     import win32api
     use_windows_api = True
-except ImportError:
+elif platform.system() == "Linux":
     # Running on linux
     import os
     import getpass
