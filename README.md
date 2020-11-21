@@ -40,6 +40,6 @@ subcommands:
 
 ## Installation Details
 
-pip install pywin32
+pip install pywin32 (only on Windows systems)
 pip install semver
 pip install pyserial
