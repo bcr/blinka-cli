@@ -118,6 +118,11 @@ def do_bossa(args):
     metadata = board.get_version_metadata(args.board)
     logging.debug("board metadata %s" % metadata)
 
+    if not metadata:
+        complaint = "Unknown board %s" % args.board
+        logging.critical(complaint)
+        raise BossaError(complaint)
+
     target_firmware = next(version for version in metadata['versions'] if ('bin' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
     logging.debug("target_firmware %s" % target_firmware)
 
