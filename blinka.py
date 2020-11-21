@@ -6,11 +6,13 @@ import tempfile
 import commands.backup
 import commands.bossa
 import commands.bootloader
+import commands.update
 
 commands = {
     "backup" : commands.backup,
     "bossa" : commands.bossa,
     "bootloader" : commands.bootloader,
+    "update" : commands.update,
 }
 
 # Do some initial logging setup -- this really needs to be here, before you do

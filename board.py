@@ -1,6 +1,7 @@
 import json
 import logging
 import os.path
+import re
 import urlutil
 
 # This is a mapping from the text in boot_log.txt to the board ID used in the firmware filenames
@@ -27,7 +28,9 @@ def identify(root):
     boot_board = parts[1]
     logging.debug("boot_board = \"%s\"" % boot_board)
 
-    return boards[boot_board]
+    version = re.search(r"\s+(\d\S+)", parts[0]).group(1)
+
+    return (version, boards[boot_board])
 
 def get_version_metadata(board_id):
     # This file has the metadata for all the boards. Go get it and find our board in it.

@@ -5,8 +5,8 @@ This is intended to provide various useful commands for maintaining CircuitPytho
 ## Running
 
 ```
-PS C:\Users\bcr00\Source\bcr\blinka-cli> python .\blinka.py --help
-usage: blinka.py [-h] [-v] [-l LOCALE] {backup,bossa,bootloader} ...
+PS C:\Users\bcr00\Source\bcr\blinka-cli> python .\blinka.py --help    
+usage: blinka.py [-h] [-v] [-l LOCALE] {backup,bossa,bootloader,update} ...
 
 Perform CircuitPython operations.
 
@@ -17,7 +17,7 @@ optional arguments:
                         specify the locale (default: en_US)
 
 subcommands:
-  {backup,bossa,bootloader}
+  {backup,bossa,bootloader,update}
                         specify which operation to perform, use --help after the operation for operation-specific help
 ```
 
