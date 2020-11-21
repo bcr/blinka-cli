@@ -7,6 +7,7 @@ import urlutil
 
 boards = {
     "Adafruit Feather M0 RFM69 with samd21g18": "feather_m0_rfm69",
+    "Adafruit PyPortal Titano with samd51j20": "pyportal_titano",
 }
 
 download_url_template = "https://downloads.circuitpython.org/bin/{board}/{locale}/adafruit-circuitpython-{board}-{locale}-{version}.{extension}"
