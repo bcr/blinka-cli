@@ -126,7 +126,7 @@ def do_bossa(args):
     target_firmware = next(version for version in metadata['versions'] if ('bin' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
     logging.debug("target_firmware %s" % target_firmware)
 
-    url = board.get_download_url(target_firmware, args.board, 'bin', args.locale)
+    url = board.get_download_url(target_firmware['version'], args.board, 'bin', args.locale)
     logging.debug("Final url is %s" % url)
     logging.info("Retrieving firmware from %s" % url)
     pathname = urlutil.get_local_file_from_url(url, args.tempdir)

@@ -35,17 +35,26 @@ def do_update(args):
 
     logging.debug("board_id = %s" % board_id)
     logging.debug("Current CircuitPython version is %s" % version)
-    metadata = board.get_version_metadata(board_id)
-    logging.debug("metadata %s" % metadata)
-    target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
-    new_version = target_firmware['version']
-    logging.debug("target_firmware %s" % target_firmware)
-    logging.info("The latest available version is %s and you have version %s" % (new_version, version))
-    logging.debug("comparing %s to %s", version, new_version)
-    if semver.compare(version, new_version) < 0:
+
+    if args.firmware_version is None:
+        metadata = board.get_version_metadata(board_id)
+        logging.debug("metadata %s" % metadata)
+        target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
+        new_version = target_firmware['version']
+        logging.debug("target_firmware %s" % target_firmware)
+        logging.info("The latest available version is %s and you have version %s" % (new_version, version))
+        logging.debug("comparing %s to %s", version, new_version)
+        perform_update = (semver.compare(version, new_version) < 0)
+    else:
+        # Forcing an update to a particular version
+
+        new_version = args.firmware_version
+        perform_update = True
+
+    if perform_update:
         # Do upgrade
         # Download UF2
-        url = board.get_download_url(target_firmware, board_id, 'uf2', args.locale)
+        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
         logging.debug("Final url is %s" % url)
         logging.info("Retrieving firmware from %s" % url)
         pathname = urlutil.get_local_file_from_url(url, args.tempdir)
@@ -84,4 +93,5 @@ def setup_argument_parser(parser):
     parser.add_argument("-u", "--unstable", action="store_false", dest="stable", default = True, help="use the latest not-stable CircuitPython version instead of the stable version")
     parser.add_argument("--board", action="store", dest="board", help="specify the board type")
     parser.add_argument("--port", action="store", dest="port", default = port, help="the port for CircuitPython (default: %(default)s)", required=(port is None))
+    parser.add_argument("--firmware-version", action="store", dest="firmware_version", help="the exact version you would like")
     parser.set_defaults(func=do_update)

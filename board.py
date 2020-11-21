@@ -137,4 +137,4 @@ def get_version_metadata(board_id):
     return next((x for x in all_metadata if x['id'] == board_id), None)
 
 def get_download_url(version, board, extension, locale):
-    return download_url_template.format(version = version['version'], locale = locale, extension = extension, board = board)
+    return download_url_template.format(version = version, locale = locale, extension = extension, board = board)
