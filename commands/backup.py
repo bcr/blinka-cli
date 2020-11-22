@@ -9,7 +9,8 @@ def zipdir(path, ziph):
     # ziph is zipfile handle
     for root, dirs, files in os.walk(path):
         for file in files:
-            ziph.write(os.path.join(root, file))
+            base = os.path.relpath(os.path.join(root, file), os.path.join(path, '..'))
+            ziph.write(os.path.join(root, file), base)
 
 def backup(args):
     logging.info("Archiving %s to %s" % (args.root, args.filename))
