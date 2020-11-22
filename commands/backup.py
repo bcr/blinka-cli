@@ -3,7 +3,6 @@ import fsutil
 import logging
 import os
 import shutil
-import zipfile
 
 # https://stackoverflow.com/questions/1855095/how-to-create-a-zip-archive-of-a-directory-in-python
 def backup(args):
