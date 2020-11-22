@@ -2,21 +2,13 @@ from datetime import datetime
 import fsutil
 import logging
 import os
+import shutil
 import zipfile
 
 # https://stackoverflow.com/questions/1855095/how-to-create-a-zip-archive-of-a-directory-in-python
-def zipdir(path, ziph):
-    # ziph is zipfile handle
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            base = os.path.relpath(os.path.join(root, file), os.path.join(path, '..'))
-            ziph.write(os.path.join(root, file), base)
-
 def backup(args):
     logging.info("Archiving %s to %s" % (args.root, args.filename))
-    with zipfile.ZipFile(args.filename, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-        zipdir(args.root, zip_file)
-        zip_file.close()
+    shutil.make_archive(args.filename, 'zip', args.root)
 
 def find_root():
     return fsutil.find_circuit_python_user_mode_root()
