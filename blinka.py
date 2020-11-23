@@ -7,12 +7,14 @@ import commands.backup
 import commands.bossa
 import commands.bootloader
 import commands.update
+import commands.sync
 
 commands = {
     "backup" : commands.backup,
     "bossa" : commands.bossa,
     "bootloader" : commands.bootloader,
     "update" : commands.update,
+    "sync" : commands.sync,
 }
 
 # Do some initial logging setup -- this really needs to be here, before you do
