@@ -94,4 +94,5 @@ def setup_argument_parser(parser):
     parser.add_argument("--board", action="store", dest="board", help="specify the board type")
     parser.add_argument("--port", action="store", dest="port", default = port, help="the port for CircuitPython (default: %(default)s)", required=(port is None))
     parser.add_argument("--firmware-version", action="store", dest="firmware_version", help="the exact version you would like")
+    parser.add_argument("--commit-hash", action="store", dest="commit_hash", help="the commit hash of the build you would like")
     parser.set_defaults(func=do_update)
