@@ -4,7 +4,7 @@ import logging
 
 def sync(args):
     logging.info("Synchronizing %s to %s" % (args.root, args.local))
-    dirsync.sync(args.root, args.local, 'sync')
+    dirsync.sync(args.root, args.local, 'sync', logger=logging)
 
 def find_root():
     return fsutil.find_circuit_python_user_mode_root()
