@@ -8,6 +8,7 @@ import commands.bossa
 import commands.bootloader
 import commands.update
 import commands.sync
+import commands.port
 
 commands = {
     "backup" : commands.backup,
@@ -15,6 +16,7 @@ commands = {
     "bootloader" : commands.bootloader,
     "update" : commands.update,
     "sync" : commands.sync,
+    "port" : commands.port,
 }
 
 # Do some initial logging setup -- this really needs to be here, before you do
