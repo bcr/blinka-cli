@@ -55,6 +55,7 @@ def reboot_in_bootloader_mode(port):
 
 def find_serial_port():
     for port in serial.tools.list_ports.comports():
+        logging.debug("found port %s vid %04x" % (port, port.vid))
         if port.vid in vids:
-            logging.debug("found vid = %04x pid = %04x" % (port.vid, port.pid))
+            logging.debug("found matching vid = %04x pid = %04x" % (port.vid, port.pid))
             return port.device
