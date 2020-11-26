@@ -51,12 +51,7 @@ options = parser.parse_args()
 # Change logging level if required
 logging.getLogger().setLevel(logging.DEBUG if options.verbose else logging.INFO)
 
-logging.debug("options = %s" % options)
-
-# Set up locale
-logging.debug("Using %s for the locale" % options.locale)
-
 with tempfile.TemporaryDirectory() as tempdir:
-    logging.debug("Temporary directory is %s" % tempdir)
     options.tempdir = tempdir
+    logging.debug("options = %s" % options)
     options.func(options)
