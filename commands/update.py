@@ -45,16 +45,26 @@ def do_update(args):
         logging.info("The latest available version is %s and you have version %s" % (new_version, version))
         logging.debug("comparing %s to %s", version, new_version)
         perform_update = (semver.compare(version, new_version) < 0)
+        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
     else:
         # Forcing an update to a particular version
 
         new_version = args.firmware_version
         perform_update = True
+        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
+
+    if args.commit_hash is not None:
+        s3_path = urlutil.find_firmware_by_hash(args.commit_hash, board_id, args.locale)
+        if s3_path:
+            perform_update = True
+            url = urlutil.get_s3_url(s3_path)
+        else:
+            print("")
 
     if perform_update:
         # Do upgrade
         # Download UF2
-        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
+
         logging.debug("Final url is %s" % url)
         logging.info("Retrieving firmware from %s" % url)
         pathname = urlutil.get_local_file_from_url(url, args.tempdir)
