@@ -69,6 +69,9 @@ name / numberspaces:
     * `shIRtty` mixed case, no `BOOT`
     * `ARCADE-D5` dash, no `BOOT`
     * `Grove Zero` mixed case, space in name, no `BOOT`
+* `os.uname()` information
+  * `(sysname='samd51', nodename='samd51', release='6.0.0', version='6.0.0 on 2020-11-16', machine='Adafruit PyPortal Titano with samd51j20')`
+
 
 Some problems I have encountered:
 
