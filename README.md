@@ -44,6 +44,7 @@ pip install pywin32 (only on Windows systems)
 pip install semver
 pip install pyserial
 pip install dirsync
+pip install freetype-py
 
 ## Observations About Namespaces
 
