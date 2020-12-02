@@ -58,6 +58,7 @@ def do_update(args):
         if s3_path:
             perform_update = True
             url = urlutil.get_s3_url(s3_path)
+            new_version = args.commit_hash
         else:
             print("")
 
@@ -87,7 +88,7 @@ def do_update(args):
             logging.info("Waiting a bit for things to settle")
             time.sleep(9)
             (version, board_id) = board.identify(args.root)
-            if version == new_version:
+            if version == new_version or (args.commit_hash and new_version in version[-10:]):
                 logging.info("I checked the current version and it looks right! All updated.")
             else:
                 logging.error("I tried to update, and I expected the current version to be %s and instead it is %s" % (new_version, version))
