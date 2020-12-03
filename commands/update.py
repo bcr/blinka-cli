@@ -88,7 +88,7 @@ def do_update(args):
             logging.info("Waiting a bit for things to settle")
             time.sleep(9)
             (version, board_id) = board.identify(args.root)
-            if version == new_version or (args.commit_hash and new_version in version[-10:]):
+            if new_version in version:
                 logging.info("I checked the current version and it looks right! All updated.")
             else:
                 logging.error("I tried to update, and I expected the current version to be %s and instead it is %s" % (new_version, version))
