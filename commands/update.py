@@ -54,7 +54,8 @@ def do_update(args):
         url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
 
     if args.commit_hash is not None:
-        s3_path = urlutil.find_firmware_by_hash(args.commit_hash, board_id, args.locale)
+        from s3util import find_firmware_by_hash
+        s3_path = find_firmware_by_hash(args.commit_hash, board_id, args.locale)
         if s3_path:
             perform_update = True
             url = urlutil.get_s3_url(s3_path)
