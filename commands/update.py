@@ -61,7 +61,7 @@ def do_update(args):
             url = urlutil.get_s3_url(s3_path)
             new_version = args.commit_hash
         else:
-            print("")
+            logging.critical(" we didn't find any firmware links with commit hash '{}'".format(args.commit_hash))
 
     if perform_update:
         # Do upgrade

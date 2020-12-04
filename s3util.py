@@ -8,7 +8,7 @@ emojis = {
     logging.DEBUG       : "\N{Nerd Face}",
     logging.INFO        : "\N{Thumbs Up Sign}",
     logging.WARNING     : "\N{Worried Face}",
-    logging.ERROR       : "\N{No Entry}",
+    logging.ERROR       : "\N{Pouting Face}",
     logging.CRITICAL    : "\N{Serious Face With Symbols Covering Mouth}",
 }
 
@@ -19,7 +19,7 @@ try:
     import boto3
     from botocore.handlers import disable_signing
 except ImportError:
-    logging.error(" --commit-hash param will not work without boto3")
+    logging.critical(" --commit-hash param will not work without boto3")
 def find_firmware_by_hash(hash, board, language):
     resource = boto3.resource('s3')
     resource.meta.client.meta.events.register('choose-signer.s3.*', disable_signing)
