@@ -28,6 +28,7 @@
 # THE SOFTWARE.
 
 import freetype
+from math import ceil
 
 
 class Bitmap(object):
@@ -217,7 +218,7 @@ class Font(object):
 
         x = 0
         previous_char = None
-        outbuffer = Bitmap(width, height)
+        outbuffer = Bitmap(ceil(width), ceil(height))
 
         for char in text:
             glyph = self.glyph_for_character(char)
@@ -230,7 +231,7 @@ class Font(object):
             # on the baseline as intended.
             y = height - glyph.ascent - baseline
 
-            outbuffer.bitblt(glyph.bitmap, x, y)
+            outbuffer.bitblt(glyph.bitmap, round(x), round(y))
 
             x += glyph.advance_width
             previous_char = char
