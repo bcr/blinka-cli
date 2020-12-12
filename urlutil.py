@@ -26,3 +26,8 @@ def get_local_file_from_url(url, tempdir):
             output.write(stream.read())
 
     return pathname
+
+
+def get_s3_url(s3_path):
+    BASE_URL = 'https://adafruit-circuit-python.s3.amazonaws.com/{}'
+    return BASE_URL.format(s3_path)
