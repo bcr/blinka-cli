@@ -5,9 +5,8 @@ import re
 import urlutil
 
 # This is a mapping from the text in boot_log.txt to the board ID used in the firmware filenames
-board_id_map_file = open("board_id_map.json", "r")
-boards = json.loads(board_id_map_file.read())
-board_id_map_file.close()
+with open("board_id_map.json", "r") as board_id_map_file:
+    boards = json.loads(board_id_map_file.read())
 
 download_url_template = "https://downloads.circuitpython.org/bin/{board}/{locale}/adafruit-circuitpython-{board}-{locale}-{version}.{extension}"
 

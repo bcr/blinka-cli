@@ -14,9 +14,8 @@ expected_user_mode_volume_names = [
     "CIRCUITPY",
 ]
 
-boot_names_file = open("boot_volume_names.json", "r")
-expected_bootloader_mode_volume_names = json.loads(boot_names_file.read())
-boot_names_file.close()
+with open("boot_volume_names.json", "r") as boot_names_file:
+    expected_bootloader_volume_names = json.loads(boot_names_file.read())
 
 # TODO: This is super Windows-centric right now. Other platforms should not
 #       need `win32api` installed and will have their own way of finding the
@@ -50,4 +49,4 @@ def find_circuit_python_user_mode_root(win=use_windows_api):
     return find_expected_volume(expected_user_mode_volume_names, win)
 
 def find_circuit_python_bootloader_mode_root(win=use_windows_api):
-    return find_expected_volume(expected_bootloader_mode_volume_names, win)
+    return find_expected_volume(expected_bootloader_volume_names, win)
