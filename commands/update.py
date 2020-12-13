@@ -8,6 +8,9 @@ import shutil
 import time
 import urlutil
 
+class UpdateError(Exception):
+    pass
+
 warning_string = """
 At this point I would like to:
 
@@ -61,7 +64,9 @@ def do_update(args):
             url = urlutil.get_s3_url(s3_path)
             new_version = args.commit_hash
         else:
-            logging.critical(" we didn't find any firmware links with commit hash '{}'".format(args.commit_hash))
+            message = "We didn't find any firmware links with commit hash '{}'".format(args.commit_hash)
+            logging.critical(message)
+            raise UpdateError(message)
 
     if perform_update:
         # Do upgrade
