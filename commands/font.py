@@ -23,13 +23,13 @@ def output_glyph(glyph, unicode_codepoint, charset, file):
             current_byte |= 1 if glyph.bitmap.pixels[y * glyph.bitmap.width + x] else 0
             x += 1
             if (x % 8) == 0:
-                file.write("%02X " % current_byte)
+                file.write("%02X" % current_byte)
                 current_byte = 0
 
         remainder = 8 - (x % 8)
         if remainder < 8:
             current_byte <<= remainder
-            file.write("%02X " % current_byte)
+            file.write("%02X" % current_byte)
         file.write("\n")
     file.write("ENDCHAR\n")
 
@@ -42,13 +42,27 @@ def make_suggested_filename(font, size):
     logging.debug("Final filename is %s" % final_name)
     return final_name
 
-def output_header(file):
+def output_header(file, bounding_box):
     file.write("STARTFONT 2.1\n")
+    file.write("FONTBOUNDINGBOX %d %d %d %d\n" % (bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]))
     file.write("CHARS\n")
 
 def output_footer(file):
     file.write("ENDFONT\n")
 
+def update_bounding(bounding_box, glyph):
+    if not bounding_box:
+        bounding_box = [0, 0, 0, 0]
+    x = glyph.bitmap.width
+    y = glyph.bitmap.height
+    x_offset = glyph.advance_width - glyph.bitmap.width
+    y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
+    bounding_box[0] = max(bounding_box[0], x)
+    bounding_box[1] = max(bounding_box[1], y)
+    bounding_box[2] = min(bounding_box[2], x_offset)
+    bounding_box[3] = min(bounding_box[3], y_offset)
+    return bounding_box
+    
 def do_font(args):
     logging.debug("Making a font from %s %d" % (args.fontpath, args.fontsize))
     font = fontutil.Font(args.fontpath, args.fontsize)
@@ -56,11 +70,25 @@ def do_font(args):
     chars_to_output = "Hello, world!"
     logging.info("Writing font to %s" % filename)
     with open(filename, "w") as file:
-        output_header(file)
         char_array = list(chars_to_output)
+
+        # https://github.com/adafruit/Adafruit_CircuitPython_Display_Text/blob/master/adafruit_display_text/label.py#L257
+        # An "M" is required
+        char_array.append('M')
+
         char_set = set(char_array)
         char_array = list(char_set)
         char_array.sort()
+
+        # First we need the font bounding box. This means we have to go
+        # through every single character we are going to output in order
+        # to find the maximum bounding. You're welcome.
+        bounding_box = None
+        for char in char_array:
+            glyph = font.glyph_for_character(char)
+            bounding_box = update_bounding(bounding_box, glyph)
+
+        output_header(file, bounding_box)
         for char in char_array:
             glyph = font.glyph_for_character(char)
             output_glyph(glyph, char, "ascii", file)
