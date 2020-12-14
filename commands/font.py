@@ -4,7 +4,7 @@ import unicodedata
 
 def output_glyph(glyph, unicode_codepoint, charset, file):
     logging.debug("Generating character '%s'" % unicode_codepoint)
-    x_offset = glyph.advance_width - glyph.bitmap.width
+    x_offset = 0
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
     encoded_char = unicode_codepoint.encode(charset)
     if len(encoded_char) > 0:
@@ -55,7 +55,7 @@ def update_bounding(bounding_box, glyph):
         bounding_box = [0, 0, 0, 0]
     x = glyph.bitmap.width
     y = glyph.bitmap.height
-    x_offset = glyph.advance_width - glyph.bitmap.width
+    x_offset = 0
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
     bounding_box[0] = max(bounding_box[0], x)
     bounding_box[1] = max(bounding_box[1], y)
