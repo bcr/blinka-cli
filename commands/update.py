@@ -8,6 +8,9 @@ import shutil
 import time
 import urlutil
 
+class UpdateError(Exception):
+    pass
+
 warning_string = """
 At this point I would like to:
 
@@ -45,16 +48,30 @@ def do_update(args):
         logging.info("The latest available version is %s and you have version %s" % (new_version, version))
         logging.debug("comparing %s to %s", version, new_version)
         perform_update = (semver.compare(version, new_version) < 0)
+        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
     else:
         # Forcing an update to a particular version
 
         new_version = args.firmware_version
         perform_update = True
+        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
+
+    if args.commit_hash is not None:
+        from s3util import find_firmware_by_hash
+        s3_path = find_firmware_by_hash(args.commit_hash, board_id, args.locale)
+        if s3_path:
+            perform_update = True
+            url = urlutil.get_s3_url(s3_path)
+            new_version = args.commit_hash
+        else:
+            message = "We didn't find any firmware links with commit hash '{}'".format(args.commit_hash)
+            logging.critical(message)
+            raise UpdateError(message)
 
     if perform_update:
         # Do upgrade
         # Download UF2
-        url = board.get_download_url(new_version, board_id, 'uf2', args.locale)
+
         logging.debug("Final url is %s" % url)
         logging.info("Retrieving firmware from %s" % url)
         pathname = urlutil.get_local_file_from_url(url, args.tempdir)
@@ -77,7 +94,7 @@ def do_update(args):
             logging.info("Waiting a bit for things to settle")
             time.sleep(9)
             (version, board_id) = board.identify(args.root)
-            if version == new_version:
+            if new_version in version:
                 logging.info("I checked the current version and it looks right! All updated.")
             else:
                 logging.error("I tried to update, and I expected the current version to be %s and instead it is %s" % (new_version, version))
@@ -94,4 +111,5 @@ def setup_argument_parser(parser):
     parser.add_argument("--board", action="store", dest="board", help="specify the board type")
     parser.add_argument("--port", action="store", dest="port", default = port, help="the port for CircuitPython (default: %(default)s)", required=(port is None))
     parser.add_argument("--firmware-version", action="store", dest="firmware_version", help="the exact version you would like")
+    parser.add_argument("--commit-hash", action="store", dest="commit_hash", help="the commit hash of the build you would like")
     parser.set_defaults(func=do_update)
