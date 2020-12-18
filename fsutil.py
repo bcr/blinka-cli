@@ -43,7 +43,7 @@ def find_expected_volume(expected_volume_names, win=use_windows_api):
                 if drive in expected_volume_names:
                     return "/media/{}/{}".format(getpass.getuser(), drive)
         except:
-            return None
+            pass
 
     logging.debug("did not find a suitable drive")
     return None
