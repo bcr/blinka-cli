@@ -1,16 +1,26 @@
+import codecs
 import fontutil
 import logging
+import string
 import unicodedata
 
 def output_glyph(glyph, unicode_codepoint, charset, file):
-    logging.debug("Generating character '%s'" % unicode_codepoint)
     x_offset = 0
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
+
+    try:
+        char_name = unicodedata.name(unicode_codepoint).replace(' ', '_')
+    except:
+        char_name = "U+%06X" % ord(unicode_codepoint)
+
+    logging.debug("Generating character '%s' %s" % (unicode_codepoint, char_name))
+
     encoded_char = unicode_codepoint.encode(charset)
     if len(encoded_char) > 0:
         # Bummer. Shouldn't happen for ASCII or 8859-x
         pass
-    file.write("STARTCHAR %s\n" % unicodedata.name(unicode_codepoint).replace(' ', '_'))
+
+    file.write("STARTCHAR %s\n" % char_name)
     file.write("ENCODING %d\n" % encoded_char[0])
     file.write("DWIDTH %d %d\n" % (glyph.advance_width, 0))
     file.write("BBX %d %d %d %d\n" % (glyph.bitmap.width, glyph.bitmap.height, x_offset, y_offset))
@@ -62,12 +72,26 @@ def update_bounding(bounding_box, glyph):
     bounding_box[2] = min(bounding_box[2], x_offset)
     bounding_box[3] = min(bounding_box[3], y_offset)
     return bounding_box
-    
+
+def get_chars_to_output(args):
+    chars_to_output = None
+    if args.chars_file:
+        # load from file
+        with codecs.open(args.chars_file, 'r', encoding='utf8') as f:
+            chars_to_output = f.read()
+            logging.debug(chars_to_output)
+    elif args.chars:
+        chars_to_output = args.chars
+    else:
+        chars_to_output = string.printable
+
+    return chars_to_output
+
 def do_font(args):
     logging.debug("Making a font from %s %d" % (args.fontpath, args.fontsize))
     font = fontutil.Font(args.fontpath, args.fontsize)
     filename = make_suggested_filename(font, args.fontsize)
-    chars_to_output = "Hello, world!"
+    chars_to_output = get_chars_to_output(args)
     logging.info("Writing font to %s" % filename)
     with open(filename, "w") as file:
         char_array = list(chars_to_output)
@@ -98,4 +122,10 @@ def setup_argument_parser(parser):
     parser.description="Perform font management operations."
     parser.add_argument("--fontpath", action="store", dest="fontpath", help="specify the font", required=True)
     parser.add_argument("--fontsize", action="store", dest="fontsize", help="specify the font size", type=int, required=True)
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--printable", action="store_true", dest="printable", help="generate glyphs for all printable characters")
+    group.add_argument("--chars", action="store", dest="chars", help="only generate glyphs for the specified characters")
+    group.add_argument("--chars-file", action="store", dest="chars_file", help="only generate glyphs for the UTF-8 characters in file")
+
     parser.set_defaults(func=do_font)
