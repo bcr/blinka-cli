@@ -9,6 +9,7 @@ import commands.bootloader
 import commands.update
 import commands.sync
 import commands.port
+import commands.font
 
 commands = {
     "backup" : commands.backup,
@@ -17,6 +18,7 @@ commands = {
     "update" : commands.update,
     "sync" : commands.sync,
     "port" : commands.port,
+    "font" : commands.font,
 }
 
 # Do some initial logging setup -- this really needs to be here, before you do
