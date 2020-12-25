@@ -1,12 +1,12 @@
 import json
 import logging
 import os.path
+import pkgutil
 import re
 import urlutil
 
 # This is a mapping from the text in boot_log.txt to the board ID used in the firmware filenames
-with open("board_id_map.json", "r") as board_id_map_file:
-    boards = json.loads(board_id_map_file.read())
+boards = json.loads(pkgutil.get_data(__name__, "board_id_map.json"))
 
 download_url_template = "https://downloads.circuitpython.org/bin/{board}/{locale}/adafruit-circuitpython-{board}-{locale}-{version}.{extension}"
 
