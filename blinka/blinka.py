@@ -60,6 +60,3 @@ def main():
         options.tempdir = tempdir
         logging.debug("options = %s" % options)
         options.func(options)
-
-if __name__ == "__main__":
-    sys.exit(main())
