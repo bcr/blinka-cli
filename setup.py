@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={'':['*.json']}, # For grabbing JSON resource files
     entry_points = {
-        'console_scripts': ['blinka=blinka.blinka'],
+        'console_scripts': ['blinka=blinka.blinka:main'],
     },
     classifiers=[
         "Programming Language :: Python :: 3",
