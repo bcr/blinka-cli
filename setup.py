@@ -14,6 +14,9 @@ setuptools.setup(
     url="https://github.com/bcr/blinka-cli",
     packages=setuptools.find_packages(),
     package_data={'':['*.json']}, # For grabbing JSON resource files
+    entry_points = {
+        'console_scripts': ['blinka=blinka.blinka'],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
