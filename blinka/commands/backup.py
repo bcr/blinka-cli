@@ -1,5 +1,5 @@
 from datetime import datetime
-import fsutil
+import blinka.fsutil
 import logging
 import os
 import shutil
@@ -11,7 +11,7 @@ def backup(args):
     shutil.make_archive(args.filename, extension, args.root)
 
 def find_root():
-    return fsutil.find_circuit_python_user_mode_root()
+    return blinka.fsutil.find_circuit_python_user_mode_root()
 
 def setup_argument_parser(parser):
     parser.description="Saves a copy of the filesystem on a CircuitPython device."

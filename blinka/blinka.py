@@ -3,22 +3,22 @@ import locale
 import logging
 import tempfile
 
-import commands.backup
-import commands.bossa
-import commands.bootloader
-import commands.update
-import commands.sync
-import commands.port
-import commands.font
+import blinka.commands.backup
+import blinka.commands.bossa
+import blinka.commands.bootloader
+import blinka.commands.update
+import blinka.commands.sync
+import blinka.commands.port
+import blinka.commands.font
 
 commands = {
-    "backup" : commands.backup,
-    "bossa" : commands.bossa,
-    "bootloader" : commands.bootloader,
-    "update" : commands.update,
-    "sync" : commands.sync,
-    "port" : commands.port,
-    "font" : commands.font,
+    "backup" : blinka.commands.backup,
+    "bossa" : blinka.commands.bossa,
+    "bootloader" : blinka.commands.bootloader,
+    "update" : blinka.commands.update,
+    "sync" : blinka.commands.sync,
+    "port" : blinka.commands.port,
+    "font" : blinka.commands.font,
 }
 
 # Do some initial logging setup -- this really needs to be here, before you do

@@ -1,5 +1,5 @@
 import dirsync
-import fsutil
+import blinka.fsutil
 import logging
 
 def sync(args):
@@ -7,7 +7,7 @@ def sync(args):
     dirsync.sync(args.root, args.local, 'sync', logger=logging)
 
 def find_root():
-    return fsutil.find_circuit_python_user_mode_root()
+    return blinka.fsutil.find_circuit_python_user_mode_root()
 
 def setup_argument_parser(parser):
     parser.description="Keeps a local directory in sync with CircuitPython. UNDER DEVELOPMENT."
