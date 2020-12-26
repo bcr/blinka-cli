@@ -1,11 +1,11 @@
-import blinkautil
+import blinka.blinkautil
 import logging
 import os
 import re
 import semver
 import subprocess
-import board
-import urlutil
+import blinka.board
+import blinka.urlutil
 
 offsets = {
     "SAMD21" : "0x2000",
@@ -115,7 +115,7 @@ def do_bossa(args):
     logging.debug("Address for device %s is %s" % (device, address))
 
     # Find the latest firmware metadata
-    metadata = board.get_version_metadata(args.board)
+    metadata = blinka.board.get_version_metadata(args.board)
     logging.debug("board metadata %s" % metadata)
 
     if not metadata:
@@ -126,10 +126,10 @@ def do_bossa(args):
     target_firmware = next(version for version in metadata['versions'] if ('bin' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
     logging.debug("target_firmware %s" % target_firmware)
 
-    url = board.get_download_url(target_firmware['version'], args.board, 'bin', args.locale)
+    url = blinka.board.get_download_url(target_firmware['version'], args.board, 'bin', args.locale)
     logging.debug("Final url is %s" % url)
     logging.info("Retrieving firmware from %s" % url)
-    pathname = urlutil.get_local_file_from_url(url, args.tempdir)
+    pathname = blinka.urlutil.get_local_file_from_url(url, args.tempdir)
     logging.debug("Firmware downloaded to %s" % pathname)
 
     execute_update(args, address, pathname)
@@ -144,7 +144,7 @@ def find_bossa_path():
     return path if is_exe(path) else None
 
 def find_port():
-    return blinkautil.find_serial_port()
+    return blinka.blinkautil.find_serial_port()
 
 def setup_argument_parser(parser):
     bossa_path = find_bossa_path()

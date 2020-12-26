@@ -1,10 +1,10 @@
-import blinkautil
+import blinka.blinkautil
 import logging
 
 #reboot_in_bootloader_mode
 
 def print_port(args):
-    port = blinkautil.find_serial_port()
+    port = blinka.blinkautil.find_serial_port()
     if port:
         logging.info(port)
     else:

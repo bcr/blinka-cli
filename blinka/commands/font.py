@@ -1,5 +1,5 @@
 import codecs
-import fontutil
+import blinka.fontutil
 import logging
 import string
 import unicodedata
@@ -89,7 +89,7 @@ def get_chars_to_output(args):
 
 def do_font(args):
     logging.debug("Making a font from %s %d" % (args.fontpath, args.fontsize))
-    font = fontutil.Font(args.fontpath, args.fontsize)
+    font = blinka.fontutil.Font(args.fontpath, args.fontsize)
     filename = make_suggested_filename(font, args.fontsize)
     chars_to_output = get_chars_to_output(args)
     logging.info("Writing font to %s" % filename)

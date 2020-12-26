@@ -1,5 +1,6 @@
 import json
 import logging
+import pkgutil
 import platform
 if platform.system() == "Windows":
     import win32api
@@ -14,8 +15,8 @@ expected_user_mode_volume_names = [
     "CIRCUITPY",
 ]
 
-with open("boot_volume_names.json", "r") as boot_names_file:
-    expected_bootloader_volume_names = json.loads(boot_names_file.read())
+# https://stackoverflow.com/questions/6028000/how-to-read-a-static-file-from-inside-a-python-package/20885799
+expected_bootloader_volume_names = json.loads(pkgutil.get_data(__name__, "boot_volume_names.json"))
 
 # TODO: This is super Windows-centric right now. Other platforms should not
 #       need `win32api` installed and will have their own way of finding the

@@ -1,12 +1,12 @@
 import json
 import logging
 import os.path
+import pkgutil
 import re
-import urlutil
+import blinka.urlutil
 
 # This is a mapping from the text in boot_log.txt to the board ID used in the firmware filenames
-with open("board_id_map.json", "r") as board_id_map_file:
-    boards = json.loads(board_id_map_file.read())
+boards = json.loads(pkgutil.get_data(__name__, "board_id_map.json"))
 
 download_url_template = "https://downloads.circuitpython.org/bin/{board}/{locale}/adafruit-circuitpython-{board}-{locale}-{version}.{extension}"
 
@@ -33,7 +33,7 @@ def get_version_metadata(board_id):
     # This file has the metadata for all the boards. Go get it and find our board in it.
     url = 'https://raw.githubusercontent.com/adafruit/circuitpython-org/master/_data/files.json'
     logging.debug("Fetching metadata from %s" % url)
-    all_metadata = urlutil.get_json_from_url(url)
+    all_metadata = blinka.urlutil.get_json_from_url(url)
     return next((x for x in all_metadata if x['id'] == board_id), None)
 
 def get_download_url(version, board, extension, locale):
