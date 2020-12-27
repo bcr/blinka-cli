@@ -61,11 +61,15 @@ name / numberspaces:
 * Board IDs (firmware root names)
   * feather_m0_rfm69
   * pyportal_titano
+  * adafruit_magtag_2.9_grayscale
+* Board-ID from bootloader INFO_UF2.TXT
+  * MagTag-29gray-revC (different than board ID adafruit_magtag_2.9_grayscale in firmware root name)
 * USB VID / PID
   * Adafruit VID
   * PIDs differ between bootloader and user mode COM ports
 * Mounted disk volume labels
   * CIRCUITPY for user mode
+    * Can be renamed by user, so not reliable
   * LOTS for bootloader mode
     * `BOOT` is used a lot for a suffix
     * `shIRtty` mixed case, no `BOOT`
@@ -73,7 +77,6 @@ name / numberspaces:
     * `Grove Zero` mixed case, space in name, no `BOOT`
 * `os.uname()` information
   * `(sysname='samd51', nodename='samd51', release='6.0.0', version='6.0.0 on 2020-11-16', machine='Adafruit PyPortal Titano with samd51j20')`
-
 
 Some problems I have encountered:
 
