@@ -45,9 +45,9 @@ def do_update(args):
         try:
             target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
         except:
-            message = "Could not find a stable firmware for %s %s." % (board_id, args.locale)
+            message = "Could not find %s firmware for %s %s." % ("a stable" if args.stable else "an unstable", board_id, args.locale)
             logging.critical(message)
-            logging.info("You can try the --unstable option and that might help.")
+            logging.info("You can try {}the --unstable option and that might help.".format("omitting " if not args.stable else ""))
             raise UpdateError(message)
         new_version = target_firmware['version']
         logging.debug("target_firmware %s" % target_firmware)
