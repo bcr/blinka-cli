@@ -39,6 +39,11 @@ def do_update(args):
     logging.debug("board_id = %s" % board_id)
     logging.debug("Current CircuitPython version is %s" % version)
 
+    if not board_id:
+        message = "Could not automatically determine your board type, use the --board option"
+        logging.critical(message)
+        raise UpdateError(message)
+
     if args.firmware_version is None:
         metadata = blinka.board.get_version_metadata(board_id)
         logging.debug("metadata %s" % metadata)
