@@ -42,7 +42,13 @@ def do_update(args):
     if args.firmware_version is None:
         metadata = blinka.board.get_version_metadata(board_id)
         logging.debug("metadata %s" % metadata)
-        target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
+        try:
+            target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
+        except:
+            message = "Could not find a stable firmware for %s %s." % (board_id, args.locale)
+            logging.critical(message)
+            logging.info("You can try the --unstable option and that might help.")
+            raise UpdateError(message)
         new_version = target_firmware['version']
         logging.debug("target_firmware %s" % target_firmware)
         logging.info("The latest available version is %s and you have version %s" % (new_version, version))
