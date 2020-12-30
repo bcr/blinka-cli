@@ -27,7 +27,7 @@ def identify(root):
 
     version = re.search(r"\s+(\d\S+)", parts[0]).group(1)
 
-    return (version, boards[boot_board])
+    return (version, boards.get(boot_board))
 
 def get_version_metadata(board_id):
     # This file has the metadata for all the boards. Go get it and find our board in it.

@@ -39,10 +39,21 @@ def do_update(args):
     logging.debug("board_id = %s" % board_id)
     logging.debug("Current CircuitPython version is %s" % version)
 
+    if not board_id:
+        message = "Could not automatically determine your board type, use the --board option"
+        logging.critical(message)
+        raise UpdateError(message)
+
     if args.firmware_version is None:
         metadata = blinka.board.get_version_metadata(board_id)
         logging.debug("metadata %s" % metadata)
-        target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
+        try:
+            target_firmware = next(version for version in metadata['versions'] if ('uf2' in version['extensions']) and (args.locale in version['languages']) and (args.stable == version['stable']))
+        except:
+            message = "Could not find %s firmware for %s %s." % ("a stable" if args.stable else "an unstable", board_id, args.locale)
+            logging.critical(message)
+            logging.info("You can try {}the --unstable option and that might help.".format("omitting " if not args.stable else ""))
+            raise UpdateError(message)
         new_version = target_firmware['version']
         logging.debug("target_firmware %s" % target_firmware)
         logging.info("The latest available version is %s and you have version %s" % (new_version, version))
