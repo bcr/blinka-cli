@@ -54,6 +54,7 @@ def make_suggested_filename(font, size):
 
 def output_header(file, bounding_box):
     file.write("STARTFONT 2.1\n")
+    file.write("COMMENT Created with blinka-cli <url:https://github.com/bcr/blinka-cli>\n")
     file.write("FONTBOUNDINGBOX %d %d %d %d\n" % (bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]))
 
     properties = {}
