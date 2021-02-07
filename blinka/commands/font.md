@@ -2,6 +2,8 @@
 
 Some BDF info is here <https://en.wikipedia.org/wiki/Glyph_Bitmap_Distribution_Format>
 
+Also here <https://www.adobe.com/content/dam/acom/en/devnet/font/pdfs/5005.BDF_Spec.pdf>
+
 The compatibility required is basically the BDF implementation found in
 <https://github.com/adafruit/Adafruit_CircuitPython_Bitmap_Font/blob/master/adafruit_bitmap_font/bdf.py>
 
@@ -21,3 +23,12 @@ Based on that implementation, I see the following lines as relevant:
 | `STARTCHAR` | Used as a sentinel to know when a char starts |
 | `ENDCHAR` | Used as a sentinel to know when a char ends |
 | `COMMENT` | Everything ignored as appropriate, no current metadata hacks |
+
+There are also "properties" (found in the `STARTPROPERTIES` section) that are required.
+
+| Property | Usage |
+| --- | --- |
+| `FONT_ASCENT` | Parsed into `_ascent` |
+| `FONT_DESCENT` | Parsed into `_descent` |
+
+<https://adafruit.github.io/web-bdftopcf/> is potentially interesting.
