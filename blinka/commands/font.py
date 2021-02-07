@@ -55,6 +55,17 @@ def make_suggested_filename(font, size):
 def output_header(file, bounding_box):
     file.write("STARTFONT 2.1\n")
     file.write("FONTBOUNDINGBOX %d %d %d %d\n" % (bounding_box[0], bounding_box[1], bounding_box[2], bounding_box[3]))
+
+    properties = {}
+    properties['FONT_ASCENT'] = bounding_box[4]
+    properties['FONT_DESCENT'] = bounding_box[5]
+    if len(properties.keys()) > 0:
+        # Output properties
+        file.write("STARTPROPERTIES %d\n" % len(properties.keys()))
+        for key in properties:
+            file.write("%s %s\n" % (key, properties[key]))
+        file.write("ENDPROPERTIES\n")
+
     file.write("CHARS\n")
 
 def output_footer(file):
@@ -62,15 +73,19 @@ def output_footer(file):
 
 def update_bounding(bounding_box, glyph):
     if not bounding_box:
-        bounding_box = [0, 0, 0, 0]
+        bounding_box = [0, 0, 0, 0, 0, 0]
     x = glyph.bitmap.width
     y = glyph.bitmap.height
     x_offset = 0
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
+    ascent = glyph.ascent
+    descent = glyph.descent
     bounding_box[0] = max(bounding_box[0], x)
     bounding_box[1] = max(bounding_box[1], y)
     bounding_box[2] = min(bounding_box[2], x_offset)
     bounding_box[3] = min(bounding_box[3], y_offset)
+    bounding_box[4] = max(bounding_box[4], ascent)
+    bounding_box[5] = max(bounding_box[5], descent)
     return bounding_box
 
 def get_chars_to_output(args):
