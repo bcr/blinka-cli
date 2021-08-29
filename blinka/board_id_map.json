@@ -1,4 +1,5 @@
 {
+  "Adafruit MagTag with ESP32S2" : "adafruit_magtag_2.9_grayscale",
   "MagTag with ESP32S2" : "adafruit_magtag_2.9_grayscale",
   "Adafruit Feather M0 RFM69 with samd21g18": "feather_m0_rfm69",
   "Adafruit PyPortal Titano with samd51j20": "pyportal_titano",
