@@ -5,10 +5,11 @@ import platform
 if platform.system() == "Windows":
     import win32api
     use_windows_api = True
-elif platform.system() == "Linux":
-    # Running on linux
+elif (platform.system() == "Linux") or (platform.system() == "Darwin"):
+    # Running on linux or macOS
     import os
     import getpass
+    filesystem_root = os.path.join('/media', getpass.getuser()) if platform.system() == "Linux" else '/Volumes'
     use_windows_api = False
 
 expected_user_mode_volume_names = [
@@ -39,10 +40,10 @@ def find_expected_volume(expected_volume_names, win=use_windows_api):
                 return drive
     else:
         try:
-            for drive in os.listdir("/media/{}".format(getpass.getuser())):
+            for drive in os.listdir(filesystem_root):
                 logging.debug("volume name is %s" % drive)
                 if drive in expected_volume_names:
-                    return "/media/{}/{}".format(getpass.getuser(), drive)
+                    return os.path.join(filesystem_root, drive)
         except:
             pass
 
