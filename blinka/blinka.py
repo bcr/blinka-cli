@@ -10,6 +10,7 @@ import blinka.commands.update
 import blinka.commands.sync
 import blinka.commands.port
 import blinka.commands.font
+import blinka.commands.updatelibs
 
 # https://chriswarrick.com/blog/2014/09/15/python-apps-the-right-way-entry_points-and-scripts/
 
@@ -22,6 +23,7 @@ def main():
         "sync" : blinka.commands.sync,
         "port" : blinka.commands.port,
         "font" : blinka.commands.font,
+        "updatelibs" : blinka.commands.updatelibs,
     }
 
     # Do some initial logging setup -- this really needs to be here, before you do
