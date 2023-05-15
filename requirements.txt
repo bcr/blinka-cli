@@ -1,2 +1,6 @@
+boto3
 dirsync
 freetype-py
+pyserial
+pywin32 ; sys_platform=="windows"
+semver

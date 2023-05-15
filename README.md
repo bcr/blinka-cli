@@ -40,12 +40,7 @@ subcommands:
 
 ## Installation Details
 
-pip install pywin32 (only on Windows systems)
-pip install semver
-pip install pyserial
-pip install dirsync
-pip install freetype-py
-pip install boto3
+Make sure the requirements are installed per `requirements.txt`
 
 ## Observations About Namespaces
 
