@@ -1,6 +1,8 @@
+appdirs
 boto3
 dirsync
 freetype-py
+httplib2
 pyserial
 pywin32 ; sys_platform=="windows"
 semver
