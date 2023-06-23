@@ -133,6 +133,8 @@ def updatelibs(args):
     logging.info("Updating libraries...")
 
     found_libraries = find_current_libraries(args.root)
+    new_libraries = set(args.libs.split(','))
+    found_libraries |= new_libraries
 
     release_manager = ReleaseManager()
 
@@ -171,4 +173,5 @@ def setup_argument_parser(parser):
     root = find_root()
     parser.description="Updates your CircuitPython libraries to the latest version."
     parser.add_argument("-r", "--root", action="store", dest="root", default=root, help="specify the root directory of your CircuitPython (default: %(default)s)", required=root is None)
+    parser.add_argument("-l", "--libs", action="store", dest="libs", default='', help="specify any new libraries to install, comma-separated", required=False)
     parser.set_defaults(func=updatelibs)
