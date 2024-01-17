@@ -70,12 +70,16 @@ class Bitmap(object):
 
 
 class Glyph(object):
-    def __init__(self, pixels, width, height, top, advance_width):
+    def __init__(self, pixels, width, height, top, left, advance_width):
         self.bitmap = Bitmap(width, height, pixels)
 
         # The glyph bitmap's top-side bearing, i.e. the vertical distance from the
         # baseline to the bitmap's top-most scanline.
         self.top = top
+
+        # The glyph bitmap's left-side bearing, i.e. the horizontal distance from the
+        # x position to the bitmap's left-most scanline.
+        self.left = left
 
         # Ascent and descent determine how many pixels the glyph extends
         # above or below the baseline.
@@ -100,12 +104,13 @@ class Glyph(object):
         pixels = Glyph.unpack_mono_bitmap(slot.bitmap)
         width, height = slot.bitmap.width, slot.bitmap.rows
         top = slot.bitmap_top
+        left = slot.metrics.horiBearingX / 64
 
         # The advance width is given in FreeType's 26.6 fixed point format,
         # which means that the pixel values are multiples of 64.
         advance_width = slot.advance.x / 64
 
-        return Glyph(pixels, width, height, top, advance_width)
+        return Glyph(pixels, width, height, top, left, advance_width)
 
     @staticmethod
     def unpack_mono_bitmap(bitmap):
