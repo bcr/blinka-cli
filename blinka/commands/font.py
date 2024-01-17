@@ -5,7 +5,7 @@ import string
 import unicodedata
 
 def output_glyph(glyph, unicode_codepoint, charset, file):
-    x_offset = 0
+    x_offset = glyph.left
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
 
     try:
@@ -77,7 +77,7 @@ def update_bounding(bounding_box, glyph):
         bounding_box = [0, 0, 0, 0, 0, 0]
     x = glyph.bitmap.width
     y = glyph.bitmap.height
-    x_offset = 0
+    x_offset = glyph.left
     y_offset = -glyph.descent if glyph.descent else glyph.ascent - glyph.height
     ascent = glyph.ascent
     descent = glyph.descent
